@@ -1,3 +1,11 @@
+mod aoc;
+
+use aoc::*;
+
 fn main() {
-    println!("Hello, world!");
+    let days = [day01::main];
+    for (i, day) in days.iter().enumerate() {
+        println!("day{:02}:", i + 1);
+        day(i + 1);
+    }
 }
