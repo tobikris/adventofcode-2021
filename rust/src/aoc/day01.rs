@@ -26,10 +26,7 @@ pub fn challenge2(day: usize) -> String {
 fn count_depth_increases_win(measurements: &Vec<i64>, window: usize) -> usize {
     measurements
         .windows(window)
-        .filter_map(|w| match w.first().copied() < w.last().copied() {
-            true => Some(true),
-            false => None,
-        })
+        .filter(|w| w.first() < w.last())
         .count()
 }
 

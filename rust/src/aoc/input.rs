@@ -8,6 +8,6 @@ pub fn read_file(day: usize, challenge: usize) -> String {
 pub fn as_ints(day: usize, challenge: usize) -> Result<Vec<i64>, std::num::ParseIntError> {
     read_file(day, challenge)
         .lines()
-        .map(|integer| integer.parse::<i64>())
+        .map(|integer| integer.parse())
         .collect()
 }
