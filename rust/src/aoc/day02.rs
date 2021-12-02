@@ -8,52 +8,42 @@ pub fn main(day: usize) {
 pub fn challenge1(day: usize) -> String {
     let steps = input::read_file(day, 1);
     let lines = steps.lines().collect();
-    let (horiz, depth) = plan_course(&lines);
+    let (horiz, depth) = plan_course_with_aim(&lines, false);
     return format!("Horizontal {} * depth {} = {}", horiz, depth, horiz * depth);
 }
 
 pub fn challenge2(day: usize) -> String {
     let steps = input::read_file(day, 1);
     let lines = steps.lines().collect();
-    let (horiz, depth) = plan_course_with_aim(&lines);
+    let (horiz, depth) = plan_course_with_aim(&lines, true);
     return format!("Horizontal {} * depth {} = {}", horiz, depth, horiz * depth);
 }
 
-fn plan_course(measurements: &Vec<&str>) -> (usize, usize) {
-    let mut horiz: usize = 0;
-    let mut depth: usize = 0;
-    measurements.iter().for_each(|l| {
-        let mut line = l.split(' ');
-        match line.next() {
-            Some("forward") => horiz += line.next().unwrap().parse::<usize>().unwrap(),
-            Some("down") => depth += line.next().unwrap().parse::<usize>().unwrap(),
-            Some("up") => depth -= line.next().unwrap().parse::<usize>().unwrap(),
-            Some(&_) => {}
-            None => {}
-        }
-    });
-    (horiz, depth)
-}
-
-fn plan_course_with_aim(measurements: &Vec<&str>) -> (usize, usize) {
+fn plan_course_with_aim(measurements: &Vec<&str>, include_aim: bool) -> (usize, usize) {
     let mut horiz: usize = 0;
     let mut depth: usize = 0;
     let mut aim: usize = 0;
     measurements.iter().for_each(|l| {
         let mut line = l.split(' ');
-        match line.next() {
+        let cmd = line.next();
+        let x = line.next().unwrap().parse::<usize>().unwrap();
+        match cmd {
             Some("forward") => {
-                let x = line.next().unwrap().parse::<usize>().unwrap();
                 horiz += x;
-                depth += aim * x;
+                if include_aim {
+                    depth += aim * x;
+                }
             }
-            Some("down") => aim += line.next().unwrap().parse::<usize>().unwrap(),
-            Some("up") => aim -= line.next().unwrap().parse::<usize>().unwrap(),
+            Some("down") => aim += x,
+            Some("up") => aim -= x,
             Some(&_) => {}
             None => {}
         }
     });
-    (horiz, depth)
+    if include_aim {
+        aim = depth;
+    }
+    (horiz, aim)
 }
 
 #[cfg(test)]
@@ -70,7 +60,7 @@ mod tests {
             "down 8",
             "forward 2",
         ];
-        let (horiz, depth) = plan_course(&steps);
+        let (horiz, depth) = plan_course_with_aim(&steps, false);
         assert_eq!(horiz, 15);
         assert_eq!(depth, 10);
     }
@@ -85,7 +75,7 @@ mod tests {
             "down 8",
             "forward 2",
         ];
-        let (horiz, depth) = plan_course_with_aim(&steps);
+        let (horiz, depth) = plan_course_with_aim(&steps, true);
         assert_eq!(horiz, 15);
         assert_eq!(depth, 60);
     }
