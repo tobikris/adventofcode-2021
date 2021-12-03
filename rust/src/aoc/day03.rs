@@ -19,7 +19,10 @@ pub fn challenge1(day: usize) -> String {
 }
 
 pub fn challenge2(day: usize) -> String {
-    "".to_string()
+    let read = input::read_file(day, 1);
+    let lines = read.lines().collect();
+    let (oxy, co2) = calc_life_support_rating(&lines);
+    return format!("Oxygen {} * CO2 {} = {:}", oxy, co2, oxy * co2);
 }
 
 fn calc_power_consumption(measurements: &Vec<&str>) -> (String, String) {
@@ -27,8 +30,8 @@ fn calc_power_consumption(measurements: &Vec<&str>) -> (String, String) {
     let gamma = transposed
         .iter()
         .map(|c| {
-            let zeros = c.iter().filter(|ch| **ch == '1').count();
-            match zeros > c.len() / 2 {
+            let ones = c.iter().filter(|ch| **ch == '1').count();
+            match ones > c.len() / 2 {
                 true => '1',
                 false => '0',
             }
@@ -58,6 +61,43 @@ fn transpose<T>(v: Vec<Vec<T>>) -> Vec<Vec<T>> {
         .collect()
 }
 
+fn reduce(vec: &Vec<&str>, matcher: fn(ones: usize, zeros: usize) -> char) -> i64 {
+    let mut vec = vec.clone();
+    let mut column: usize = 0;
+    while vec.len() > 1 {
+        let comp = transpose(vec.iter().map(|l| l.chars().collect()).collect())
+            .iter()
+            .map(|c| {
+                let ones = c.iter().filter(|ch| **ch == '1').count();
+                let zeros = c.iter().filter(|ch| **ch == '0').count();
+                matcher(ones, zeros)
+            })
+            .collect::<Vec<_>>()[column];
+        vec.retain(|&m| m.chars().collect::<Vec<_>>()[column] == comp);
+        column += 1;
+    }
+    isize::from_str_radix(vec.iter().collect::<Vec<_>>()[0], 2)
+        .unwrap()
+        .try_into()
+        .unwrap()
+}
+
+fn calc_life_support_rating(measurements: &Vec<&str>) -> (i64, i64) {
+    let oxy = reduce(&measurements.clone(), |ones, zeros: usize| {
+        match ones >= zeros {
+            true => '1',
+            _ => '0',
+        }
+    });
+    let co2 = reduce(&measurements.clone(), |ones, zeros: usize| {
+        match ones < zeros {
+            true => '1',
+            _ => '0',
+        }
+    });
+    (oxy, co2)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -76,5 +116,16 @@ mod tests {
                 * isize::from_str_radix(epsilon.as_str(), 2).unwrap(),
             198
         );
+    }
+
+    #[test]
+    fn challenge2() {
+        let steps = vec![
+            "00100", "11110", "10110", "10111", "10101", "01111", "00111", "11100", "10000",
+            "11001", "00010", "01010",
+        ];
+        let (oxygen, co2) = calc_life_support_rating(&steps);
+        assert_eq!(oxygen, 23);
+        assert_eq!(co2, 10);
     }
 }
