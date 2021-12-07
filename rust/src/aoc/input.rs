@@ -11,3 +11,11 @@ pub fn as_ints(day: usize, challenge: usize) -> Result<Vec<i64>, std::num::Parse
         .map(|integer| integer.parse())
         .collect()
 }
+
+pub fn line_as_usize(day: usize, challenge: usize) -> Result<Vec<usize>, std::num::ParseIntError> {
+    read_file(day, challenge)
+        .trim_end()
+        .split(",")
+        .map(|v| v.parse())
+        .collect()
+}

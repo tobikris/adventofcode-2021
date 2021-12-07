@@ -8,12 +8,7 @@ pub fn main(day: usize) {
 }
 
 pub fn challenge1(day: usize) -> String {
-    let read = input::read_file(6, 1);
-    let mut fish = read
-        .trim_end()
-        .split(",")
-        .filter_map(|v| v.parse().ok())
-        .collect::<Vec<usize>>();
+    let mut fish = input::line_as_usize(day, 1).unwrap();
     format!(
         "Count of lanternfish after {} days: {}",
         80,
@@ -22,12 +17,7 @@ pub fn challenge1(day: usize) -> String {
 }
 
 pub fn challenge2(day: usize) -> String {
-    let read = input::read_file(6, 1);
-    let mut fish = read
-        .trim_end()
-        .split(",")
-        .filter_map(|v| v.parse().ok())
-        .collect::<Vec<usize>>();
+    let mut fish = input::line_as_usize(day, 1).unwrap();
     format!(
         "Count of lanternfish after {} days: {}",
         256,
