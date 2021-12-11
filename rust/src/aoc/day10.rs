@@ -1,7 +1,6 @@
 use crate::aoc::input;
 
 extern crate pest;
-use pest::iterators::Pair;
 use pest::Parser;
 
 pub fn main(day: usize) {
@@ -54,10 +53,6 @@ pub fn scoring_illegal(symbol: char) -> usize {
     }
 }
 
-fn print_type_of<T>(_: &T) {
-    println!("{}", std::any::type_name::<T>())
-}
-
 pub fn generate_one(incomplete: &mut String, score: &mut usize) -> (String, usize) {
     if let Err(err) = NavParser::parse(Rule::line, &incomplete) {
         if let pest::error::InputLocation::Pos(pos) = err.location {
@@ -86,7 +81,7 @@ pub fn score_incomplete(read: &str) -> usize {
                 if let pest::error::InputLocation::Pos(pos) = err.location {
                     if pos >= l.len() {
                         let mut incomplete = l.to_owned();
-                        let (complete, score) = generate_one(&mut incomplete, &mut 0);
+                        let (_, score) = generate_one(&mut incomplete, &mut 0);
                         return Some(score);
                     }
                 }

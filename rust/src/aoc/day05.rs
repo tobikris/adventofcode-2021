@@ -9,7 +9,7 @@ pub fn main(day: usize) {
 }
 
 pub fn challenge1(day: usize) -> String {
-    let read = input::read_file(5, 1);
+    let read = input::read_file(day, 1);
     let lines = read_lines(read);
     let mut field = Field::new(1000);
     lines
@@ -23,7 +23,7 @@ pub fn challenge1(day: usize) -> String {
 }
 
 pub fn challenge2(day: usize) -> String {
-    let read = input::read_file(5, 1);
+    let read = input::read_file(day, 1);
     let lines = read_lines(read);
     let mut field = Field::new(1000);
     lines
@@ -89,9 +89,9 @@ impl std::fmt::Display for Field {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         for x in &self.fields {
             for y in x {
-                write!(f, "{}", y);
+                write!(f, "{}", y).expect("");
             }
-            write!(f, "\n");
+            write!(f, "\n").expect("");
         }
         write!(f, "\n")
     }

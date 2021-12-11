@@ -163,22 +163,6 @@ pub fn decode_output(input: Vec<&str>, output: Vec<&str>) -> Vec<usize> {
         .collect()
 }
 
-pub fn decode_segments(segments: &str) -> Option<usize> {
-    match segments {
-        "abcefg" => Some(0),
-        "cf" => Some(1),
-        "acdeg" => Some(2),
-        "acdfg" => Some(3),
-        "bcdf" => Some(4),
-        "abdfg" => Some(5),
-        "abdefg" => Some(6),
-        "acf" => Some(7),
-        "abcdefg" => Some(8),
-        "abcdfg" => Some(9),
-        _ => Some(10),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

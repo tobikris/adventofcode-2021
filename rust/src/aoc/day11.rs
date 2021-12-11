@@ -52,7 +52,7 @@ pub fn flash(grid: &mut Vec<Vec<usize>>, row: isize, col: isize) {
 
 pub fn do_step(grid: &mut Vec<Vec<usize>>, steps: usize) -> usize {
     let mut flashes = 0;
-    for s in 0..steps {
+    for _ in 0..steps {
         for r in 0..grid.len() {
             for c in 0..grid[r].len() {
                 flash(grid, r as isize, c as isize);

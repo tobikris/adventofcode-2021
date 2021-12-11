@@ -1,6 +1,5 @@
 use crate::aoc::input;
 
-use itertools::Itertools;
 use std::collections::HashMap;
 
 pub fn main(day: usize) {
@@ -77,19 +76,10 @@ impl Heightmap {
         }
         None
     }
-    pub fn is_in_basin(self, row: usize, col: usize) -> Option<bool> {
-        if let Some(val) = self.grid.get(row)?.get(col) {
-            if *val == 9 {
-                return Some(false);
-            }
-            return Some(true);
-        }
-        None
-    }
     pub fn flood_fill(&mut self) {
         let mut counter = 100;
         for (row, r) in self.clone().grid.iter().enumerate() {
-            for (col, c) in r.iter().enumerate() {
+            for (col, _) in r.iter().enumerate() {
                 self.flood_step(row, col, counter);
                 counter += 1;
             }
