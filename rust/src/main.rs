@@ -2,6 +2,9 @@ mod aoc;
 
 use aoc::*;
 
+#[macro_use]
+extern crate pest_derive;
+
 fn main() {
     let days = [
         day01::main,
@@ -13,6 +16,7 @@ fn main() {
         day07::main,
         day08::main,
         day09::main,
+        day10::main,
     ];
     for (i, day) in days.iter().enumerate() {
         println!("day{:02}:", i + 1);

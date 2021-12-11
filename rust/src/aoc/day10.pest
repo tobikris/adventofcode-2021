@@ -1,0 +1,21 @@
+braces_l = { "{" }
+braces_r = { "}" }
+braces = { braces_l ~ ps* ~ braces_r}
+
+parens_l = { "(" }
+parens_r = { ")" }
+parens = { parens_l ~ ps* ~ parens_r}
+
+brackets_l = { "[" }
+brackets_r = { "]" }
+brackets = { brackets_l ~ ps* ~ brackets_r}
+
+tags_l = { "<" }
+tags_r = { ">" }
+tags = { tags_l ~ ps* ~ tags_r}
+
+ps = {braces|parens|brackets|tags}
+
+line = { SOI ~ ps+ ~ EOI }
+
+WHITESPACE = _{ " " | "\t" | "\n" }
