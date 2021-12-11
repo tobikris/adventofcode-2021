@@ -17,6 +17,7 @@ fn main() {
         day08::main,
         day09::main,
         day10::main,
+        day11::main,
     ];
     for (i, day) in days.iter().enumerate() {
         println!("day{:02}:", i + 1);
