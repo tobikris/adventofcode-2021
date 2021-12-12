@@ -1,5 +1,5 @@
 use adventofcode2021::aoc::*;
 
 fn main() {
-    day03::main(6);
+    day06::main(6);
 }
