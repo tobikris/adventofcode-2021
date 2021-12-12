@@ -21,7 +21,7 @@ pub fn challenge2(day: usize) -> String {
     let read = input::read_file(day, 1);
     let unique_paths = count_unique_paths(read, lowercase_only_one_twice);
     format!(
-        "Total unique paths visiting small caves twice: {}",
+        "Total unique paths visiting at most one small caves twice: {}",
         unique_paths
     )
 }
